@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedRoute AI Haryana - Royal Triage & Emergency Network</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- jsPDF & QR Code Generator CDN for PDF Passes -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- Background Luxury Glow -->
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <div class="app-container">
+    
+    <!-- Top Executive Header -->
+    <header class="luxury-header">
+      <div class="header-top">
+        <div class="brand-badge">
+          <span class="pulsing-emerald"></span> Alexa+ Haryana Health Portal 2026
+        </div>
+        <div class="top-actions">
+          <button class="sos-btn" onclick="triggerSOS()">🚨 SOS PANIC</button>
+          <button id="userAuthBtn" class="luxury-btn" onclick="openAuthModal()">👤 Verify Family ID (PPP)</button>
+        </div>
+      </div>
+
+      <h1 class="gold-gradient-title">MedRoute AI Haryana</h1>
+      <p class="subtitle">Statewide Triage Engine — Tier-1 Apex Colleges to Deep Rural PHC/CHC Network (NHM Kayakalp Verified)</p>
+    </header>
+
+    <!-- Verified Family ID User Banner -->
+    <div id="verifiedUserBar" class="verified-luxury-bar hidden">
+      <div class="verified-content">
+        <span class="gold-chip">👑 VERIFIED PPP PROFILE</span>
+        <h3 id="profileName">Patient Name</h3>
+        <p id="profileSchemeText">100% Free Cashless Care Activated under Chirayu Haryana / PM-JAY</p>
+      </div>
+      <button class="logout-btn" onclick="logoutUser()">Log Out</button>
+    </div>
+
+    <!-- Main Workspace -->
+    <main class="workspace">
+
+      <!-- Step 1: Voice & Filter Selection -->
+      <section class="luxury-card">
+        <div class="card-header-flex">
+          <h2>📍 Step 1: Select Location & Medical Emergency</h2>
+          <button class="mic-btn" onclick="startVoiceInput()" title="Speak your medical condition or village">
+            🎙️ <span id="micText">Speak Query</span>
+          </button>
+        </div>
+
+        <div class="input-grid-3">
+          <div class="input-group">
+            <label for="districtSelect">District (Haryana 22 HQ):</label>
+            <select id="districtSelect" onchange="updateSubDivisions()">
+              <option value="Rohtak" selected>Rohtak</option>
+              <option value="Karnal">Karnal</option>
+              <option value="Nuh">Nuh (Mewat)</option>
+              <option value="Sonipat">Sonipat</option>
+              <option value="Faridabad">Faridabad</option>
+              <option value="Panchkula">Panchkula</option>
+              <option value="Gurugram">Gurugram</option>
+              <option value="Hisar">Hisar</option>
+              <option value="Ambala">Ambala</option>
+              <option value="Bhiwani">Bhiwani</option>
+              <option value="Charkhi Dadri">Charkhi Dadri</option>
+              <option value="Fatehabad">Fatehabad</option>
+              <option value="Jhajjar">Jhajjar</option>
+              <option value="Jind">Jind</option>
+              <option value="Kaithal">Kaithal</option>
+              <option value="Kurukshetra">Kurukshetra</option>
+              <option value="Mahendragarh">Mahendragarh</option>
+              <option value="Palwal">Palwal</option>
+              <option value="Panipat">Panipat</option>
+              <option value="Rewari">Rewari</option>
+              <option value="Sirsa">Sirsa</option>
+              <option value="Yamunanagar">Yamunanagar</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="subDivisionSelect">Sub-Division / Block / Village:</label>
+            <select id="subDivisionSelect"></select>
+          </div>
+
+          <div class="input-group">
+            <label for="tierFilterSelect">Hospital Tier Filter:</label>
+            <select id="tierFilterSelect">
+              <option value="all">All Tiers (Tier-1 Apex to Tier-5 Rural)</option>
+              <option value="tier1">Tier 1: State Apex Medical Colleges</option>
+              <option value="tier2">Tier 2: District Civil Hospitals (DH)</option>
+              <option value="tier3">Tier 3: Sub-Divisional Hospitals (SDH)</option>
+              <option value="tier4">Tier 4: Village Block CHCs</option>
+              <option value="tier5">Tier 5: Frontline Rural PHC Network</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group" style="margin-bottom: 20px;">
+          <label for="diseaseInput">Select Disease / Emergency Condition:</label>
+          <select id="diseaseInput">
+            <optgroup label="Critical Emergencies">
+              <option value="Heart Attack / Acute Cardiac Arrest">Heart Attack / Acute Cardiac Arrest</option>
+              <option value="Brain Stroke / Severe Hypertension">Brain Stroke / Severe Hypertension</option>
+              <option value="Road Traffic Accident / Major Trauma">Road Traffic Accident / Major Trauma</option>
+              <option value="Severe Burns / Fire Accidental Injury">Severe Burns / Fire Injury</option>
+            </optgroup>
+            <optgroup label="Infectious & General">
+              <option value="Dengue / Severe Viral Fever">Dengue / Severe Viral Fever</option>
+              <option value="Malaria / Typhoid / Hepatitis">Malaria / Typhoid / Hepatitis</option>
+              <option value="Appendicitis / Acute Abdominal Pain">Appendicitis / Acute Surgery</option>
+            </optgroup>
+            <optgroup label="Maternity & Pediatric">
+              <option value="Emergency Delivery / Maternity Care">Emergency Delivery / Maternity Care</option>
+              <option value="Pediatric High Fever / Infant Care">Pediatric High Fever / Infant Care</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="button-row">
+          <button class="primary-gold-btn" onclick="searchHospitals()">🔍 Scan Official Govt Network & Kayakalp Ratings</button>
+          <button class="ambulance-btn" onclick="dispatchAmbulance()">🚑 Dispatch 108 Emergency Ambulance</button>
+        </div>
+      </section>
+
+      <!-- Step 2: Live Hospital Network Display -->
+      <section id="resultsSection" class="luxury-card hidden">
+        <div id="schemeEligibilityBox" class="scheme-banner"></div>
+        <h2>🏥 Verified Govt Hospitals (NHM Kayakalp Aligned)</h2>
+        <div id="hospitalList" class="hospital-grid"></div>
+      </section>
+
+      <!-- Step 3: Priority Digital Pass Booking -->
+      <section id="bookingSection" class="luxury-card hidden">
+        <h2>⚡ Step 3: Generate Priority Admission Digital Pass</h2>
+        <div class="form-grid">
+          <input type="text" id="patientName" placeholder="Patient Full Name">
+          <input type="text" id="patientAge" placeholder="Patient Age">
+          <select id="selectedHospital">
+            <option value="">-- Select Hospital for Ticket --</option>
+          </select>
+          <button class="success-btn" onclick="generateTicket()">🎫 Issue Official Priority Digital Ticket</button>
+        </div>
+      </section>
+
+      <!-- Step 4: Digital Ticket Display -->
+      <section id="ticketSection" class="ticket-box hidden">
+        <div class="ticket-header">
+          <h3>✅ Official Emergency Triage Ticket Issued</h3>
+          <span class="gold-chip">Alexa+ Verified Pass</span>
+        </div>
+        <div id="ticketDetails" class="ticket-body"></div>
+        <div id="qrcode" class="qr-container"></div>
+        <button class="pdf-download-btn" onclick="downloadPDFTicket()">📄 Download Official PDF Ticket</button>
+      </section>
+
+    </main>
+
+    <!-- Sign Up / Login Modal -->
+    <div id="authModal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>👑 Haryana Parivar Pehchan Patra (PPP) Verification</h2>
+          <span class="close-modal" onclick="closeAuthModal()">&times;</span>
+        </div>
+        <p class="modal-sub">Enter your Family ID details to automatically unlock 100% Free Chirayu Haryana Treatment.</p>
+        <form id="signupForm" onsubmit="handleSignup(event)">
+          <div class="form-group">
+            <label for="regName">Full Name:</label>
+            <input type="text" id="regName" placeholder="e.g. Nishu Sharma" required>
+          </div>
+          <div class="form-group">
+            <label for="regPhone">Phone Number:</label>
+            <input type="tel" id="regPhone" placeholder="10-digit Mobile Number" required>
+          </div>
+          <div class="form-group">
+            <label for="familyId">Family ID / PPP Number:</label>
+            <input type="text" id="familyId" placeholder="e.g. 8XYZ1234" required>
+          </div>
+          <div class="form-group">
+            <label for="incomeBracket">Verified Family Annual Income:</label>
+            <select id="incomeBracket" required>
+              <option value="low">Below ₹1.80 Lakh / Year (100% Free Chirayu/Ayushman Card)</option>
+              <option value="bpl">BPL / Antyodaya Ration Card Holder (100% Free Govt Care)</option>
+              <option value="middle">₹1.80 Lakh - ₹3.00 Lakh / Year (70% Subsidized Charge)</option>
+              <option value="general">Above ₹3.00 Lakh / Year (Standard Subsidized Govt Fee)</option>
+            </select>
+          </div>
+          <button type="submit" class="primary-gold-btn" style="margin-top:10px;">⚡ Verify & Apply Scheme</button>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      <p>Amazon Developer Hackathon 2026 | Alexa+ Simulated Healthcare Track — Official Haryana Govt Emergency Network</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
